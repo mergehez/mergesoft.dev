@@ -1,0 +1,59 @@
+import * as b from '@mergehez/barke';
+
+const env = b.parseEnv();
+const allConfigs = {
+    base: {
+        sourceBasePath: "./",
+        targetBasePath: "/www/wwwroot/mergesoft.dev",
+        targetOS: 'unix',
+    } as const,
+    ssh: {
+        host: env.HOST_SERVER,
+        port: parseInt(env.SSH_PORT ?? '22'),
+        username: env.SSH_USERNAME,
+        password: env.SSH_PASSWORD,
+    },
+    newFiles: {
+        dirsWithManyFiles: [],
+        ignorePatterns: []
+    },
+};
+
+async function start() {
+    const executer = b.useExecuter(allConfigs.base)
+    const server = await executer.sshConnect(allConfigs.ssh)
+
+    await executer.exec({
+        command: 'bun run build',
+        on_error: 'print'
+    })
+    await server.deleteFile('index.html', {on_error: 'ignore'});
+    await server.deleteFile('manifest.json', {on_error: 'ignore'});
+    await server.deleteDir('assets', {
+        message: 'Deleting old auto-generated vue&js files on server...',
+        on_error: 'ignore'
+    });
+    await server.deleteFile('hot', {on_error: 'ignore'});
+
+    const newFiles = await server.findNewFiles({
+        ignorePatterns: allConfigs.newFiles.ignorePatterns,
+        dirsWithManyFiles: allConfigs.newFiles.dirsWithManyFiles,
+        ignoreFn: (path, stat) => {
+            return !path.startsWith('dist')
+        },
+    })
+
+    executer.exitIfDryRun();
+
+    executer.deleteLocalFile('barke_deploy_archive.zip', true, 'print');
+    const zip = executer.compressFiles(newFiles);
+
+    await server.uploadFile(zip.path);
+    await server.unzip(zip.path);
+    await server.deleteFile(zip.path);
+    zip.deleteLocally();
+    server.dispose();
+
+    executer.finish();
+}
+start()
