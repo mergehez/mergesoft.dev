@@ -32,7 +32,7 @@ const severityClass = computed(() => {
 
 <template>
     <component :is="props.as || 'button'" class="btn"
-               :class="twMerge(severityClass, iconOnly || small ? 'btn-sm rounded' : '', smallY ? 'small-y' : '', iconOnly ? 'px-1' : '', $attrs.class as any)"
+               :class="twMerge(severityClass, iconOnly || small ? 'btn-sm rounded' : '', smallY ? 'py-1' : '', iconOnly ? 'px-1' : '', $attrs.class as any)"
                :disabled="props.loading">
         <Icon v-if="props.loading" icon="icon-mingcute--loading-fill animate-spin"/>
         <slot>

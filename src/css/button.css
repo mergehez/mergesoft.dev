@@ -11,10 +11,6 @@
     @apply px-2 py-1 gap-1;
 }
 
-@utility btn.small-y {
-    @apply py-1;
-}
-
 @utility btn-primary {
     @apply text-white bg-indigo-500 hover:bg-indigo-600 focus:ring-indigo-300 dark:bg-indigo-800/70 dark:hover:bg-indigo-800/90 dark:focus:ring-indigo-700;
 }
@@ -43,7 +39,6 @@
 }
 
 @utility btn-warning {
-    /*@apply  border-orange-200;*/
     @apply text-black bg-yellow-400 dark:bg-yellow-500/90 hover:bg-yellow-500 dark:hover:bg-yellow-500/70 focus:ring-yellow-600 dark:focus:ring-yellow-400;
 }
 
