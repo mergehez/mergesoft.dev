@@ -1,3 +1,4 @@
+<!--suppress SpellCheckingInspection -->
 <script setup lang="ts">
 
 import {computed, type CSSProperties} from "vue";
@@ -53,15 +54,15 @@ const projects = computed<Project[]>(() => {
                 backgroundColor: 'transparent',
             },
         },
-        {
-            title: 'Li Hev Bîne',
-            logoUrl: 'lihevbine.png',
-            androidUrl: 'com.arges.sepan.listikalihevanine',
-            description: __('li_hev_bine_description'),
-            logoStyle: {
-                backgroundColor: '#de64d7',
-            },
-        },
+        // {
+        //     title: 'Li Hev Bîne',
+        //     logoUrl: 'lihevbine.png',
+        //     androidUrl: 'com.arges.sepan.listikalihevanine',
+        //     description: __('li_hev_bine_description'),
+        //     logoStyle: {
+        //         backgroundColor: '#de64d7',
+        //     },
+        // },
         {
             title: 'WîkîFerheng',
             logoUrl: 'wikiferheng.png',
@@ -77,7 +78,7 @@ const projects = computed<Project[]>(() => {
             logoUrl: 'mergesoft.png',
             githubUrl: 'https://github.com/mergehez',
             description: __('check_github'),
-            class: 'col-span-full',
+            // class: 'col-span-full's,
         },
     ];
 })
@@ -115,11 +116,11 @@ const projects = computed<Project[]>(() => {
                                     <Icon icon="icon-mdi--web text-lg"/>
                                     {{ __('website') }}
                                 </ArgButton>
-                                <ArgButton as="a" severity="secondary" v-if="proj.androidUrl" :href="proj.androidUrl" target="_blank" small>
+                                <ArgButton as="a" severity="secondary" v-if="proj.androidUrl" :href="'https://play.google.com/store/apps/details?id='+proj.androidUrl" target="_blank" small>
                                     <Icon icon="icon-bxl--play-store text-lg"/>
                                     Android
                                 </ArgButton>
-                                <ArgButton as="a" severity="secondary" v-if="proj.iosUrl" :href="proj.iosUrl" target="_blank" small>
+                                <ArgButton as="a" severity="secondary" v-if="proj.iosUrl" :href="'https://apps.apple.com/app/'+proj.iosUrl" target="_blank" small>
                                     <Icon icon="icon-mdi--apple text-lg"/>
                                     iOS
                                 </ArgButton>
